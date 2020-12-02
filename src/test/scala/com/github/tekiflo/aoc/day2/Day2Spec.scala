@@ -26,6 +26,12 @@ class Day2Spec extends AnyFlatSpec with Matchers {
   it should "return the correct result for part 1 given the test input" in {
     val expectedResult = 2
 
-    Day2.howManyAreValid(parseInput(lines)) mustBe expectedResult
+    Day2.howManyAreValidPart1(parseInput(lines)) mustBe expectedResult
+  }
+
+  it should "return the correct result for part 2 given the test input" in {
+    val expectedResult = 1
+
+    Day2.howManyAreValidPart2(parseInput(lines)) mustBe expectedResult
   }
 }
