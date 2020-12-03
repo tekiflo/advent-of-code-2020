@@ -25,6 +25,12 @@ class Day3Spec extends AnyFlatSpec with Matchers {
   it should "return the correct result for part 1 given the test input" in {
     val expectedResult = 7
 
-    Day3.countTreesOnPath(road) mustBe expectedResult
+    Day3.countTreesOnPath(road, Day3.part1Delta) mustBe expectedResult
+  }
+
+  it should "return the correct result for part 2 given the test input" in {
+    val expectedResult = 336
+
+    Day3.multiplyTreesOnAllPaths(road, Day3.part2Deltas) mustBe expectedResult
   }
 }
