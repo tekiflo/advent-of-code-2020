@@ -34,8 +34,7 @@ object Day3 {
       Road(lines = input.map(_.map(Terrain(_)).toArray).toArray, pos = Point(0, 0))
   }
 
-  def countTreesOnPath(road: Road): Int = {
-    val delta = Point(3, 1)
+  def countTreesOnPath(road: Road, delta: Point): Int = {
     @tailrec def rec(road: Road, acc: Int): Int = road.move(delta) match {
       case Some(newRoad) =>
         rec(newRoad, acc + (if (newRoad() == Terrain.Tree) 1 else 0))
@@ -45,11 +44,27 @@ object Day3 {
     rec(road, 0)
   }
 
+  def multiplyTreesOnAllPaths(road: Road, deltas: Seq[Point]): Long =
+    deltas.map(countTreesOnPath(road, _).toLong).product
+
+  val part1Delta: Point = Point(3, 1)
+
+  val part2Deltas: Seq[Point] = Seq(
+    Point(1, 1),
+    Point(3, 1),
+    Point(5, 1),
+    Point(7, 1),
+    Point(1, 2)
+  )
+
   def main(args: Array[String]): Unit = {
     val lines = Source.fromResource("day3/input.txt").getLines().toSeq
     val road  = Road.parseInput(lines)
 
-    val result = countTreesOnPath(road)
-    println(s"$result trees on path")
+    val resultPart1 = countTreesOnPath(road, part1Delta)
+    println(s"$resultPart1 trees on path")
+
+    val resultPart2 = multiplyTreesOnAllPaths(road, part2Deltas)
+    println(s"product of trees on all paths: $resultPart2")
   }
 }
