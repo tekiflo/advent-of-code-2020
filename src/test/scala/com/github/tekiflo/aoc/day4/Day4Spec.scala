@@ -1,0 +1,31 @@
+package com.github.tekiflo.aoc.day4
+
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
+
+class Day4Spec extends AnyFlatSpec with Matchers {
+  behavior of "Day 4"
+
+  val input: String =
+    """ecl:gry pid:860033327 eyr:2020 hcl:#fffffd
+      |byr:1937 iyr:2017 cid:147 hgt:183cm
+      |
+      |iyr:2013 ecl:amb cid:350 eyr:2023 pid:028048884
+      |hcl:#cfa07d byr:1929
+      |
+      |hcl:#ae17e1 iyr:2013
+      |eyr:2024
+      |ecl:brn pid:760753108 byr:1931
+      |hgt:179cm
+      |
+      |hcl:#cfa07d eyr:2025 pid:166559648
+      |iyr:2011 ecl:brn hgt:59in""".stripMargin
+
+  val passports: Seq[Day4.Passport] = Day4.parseInput(input.split('\n').toSeq)
+
+  it should "return the correct result for part 1 given the test input" in {
+    val expectedResult = 2
+
+    Day4.countValidPassports(passports) mustBe expectedResult
+  }
+}
