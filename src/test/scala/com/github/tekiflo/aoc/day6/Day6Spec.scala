@@ -23,14 +23,26 @@ class Day6Spec extends AnyFlatSpec with Matchers {
       |
       |b""".stripMargin
 
-  val groups: Seq[Set[Char]] = Day6.parseInput(input.split('\n').toSeq)
+  val lines: Seq[String] = input.split('\n').toSeq
 
-  it should "correctly parse the input" in {
+  val groupsUnion: Seq[Set[Char]]        = Day6.parseInputUnion(lines)
+  val groupsIntersection: Seq[Set[Char]] = Day6.parseInputIntersection(lines)
+
+  it should "correctly parse the input for part 1" in {
     val expected = Seq("abc", "abc", "abc", "a", "b").map(_.toSet)
-    groups must contain theSameElementsAs expected
+    groupsUnion must contain theSameElementsAs expected
   }
 
   it should "return the correct result for part 1 given the test input" in {
-    Day6.sumOfGroups(groups) mustBe 11
+    Day6.sumOfGroups(groupsUnion) mustBe 11
+  }
+
+  it should "correctly parse the input for part 2" in {
+    val expected = Seq("abc", "", "a", "a", "b").map(_.toSet)
+    groupsIntersection must contain theSameElementsAs expected
+  }
+
+  it should "return the correct result for part 2 given the test input" in {
+    Day6.sumOfGroups(groupsIntersection) mustBe 6
   }
 }
