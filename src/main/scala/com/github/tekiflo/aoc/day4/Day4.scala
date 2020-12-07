@@ -33,7 +33,7 @@ object Day4 {
         raw match {
           case pattern(size, "cm") => isBetween(150, 193)(size)
           case pattern(size, "in") => isBetween(59, 76)(size)
-          case _ => false
+          case _                   => false
         }
       }
       def isColor(raw: String)          = raw.matches("#[0-9a-f]{6}")
