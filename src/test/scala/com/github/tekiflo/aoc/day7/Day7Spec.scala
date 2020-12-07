@@ -37,4 +37,19 @@ class Day7Spec extends AnyFlatSpec with Matchers {
   it should "return the correct result for part 1 given the test input" in {
     bags.howManyCanContain(Day7.myBag) mustBe 4
   }
+
+  it should "return the correct result for part 2 given the test input" in {
+    bags.howManyBagsFor(Day7.myBag) mustBe 32
+
+    val otherInput =
+      """shiny gold bags contain 2 dark red bags.
+        |dark red bags contain 2 dark orange bags.
+        |dark orange bags contain 2 dark yellow bags.
+        |dark yellow bags contain 2 dark green bags.
+        |dark green bags contain 2 dark blue bags.
+        |dark blue bags contain 2 dark violet bags.
+        |dark violet bags contain no other bags.""".stripMargin
+    val otherBags: Day7.Bags = Day7.parseInput(otherInput.split('\n').toSeq)
+    otherBags.howManyBagsFor(Day7.myBag) mustBe 126
+  }
 }
