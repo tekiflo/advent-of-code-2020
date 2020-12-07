@@ -31,11 +31,19 @@ object Day5 {
 
   def highestSeatId(passes: Seq[BoardingPass]): Int = passes.map(_.seatId).max
 
+  def mySeatId(passes: Seq[BoardingPass]): Int = {
+    val seats = passes.map(_.seatId).toSet
+    (seats.min to seats.max).find(!seats.contains(_)).getOrElse(-1)
+  }
+
   def main(args: Array[String]): Unit = {
     val lines  = Source.fromResource("day5/input.txt").getLines().toSeq
     val passes = parseInput(lines)
 
-    val result = highestSeatId(passes)
-    println(s"the highest seat ID is $result")
+    val resultPart1 = highestSeatId(passes)
+    println(s"the highest seat ID is $resultPart1")
+
+    val resultPart2 = mySeatId(passes)
+    println(s"my seat ID is $resultPart2")
   }
 }
