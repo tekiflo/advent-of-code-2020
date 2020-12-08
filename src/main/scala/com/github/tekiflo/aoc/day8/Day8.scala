@@ -10,9 +10,11 @@ object Day8 {
     pos: Int,
     data: Int
   ) {
-    val current: Instruction = instructions(pos)
+    def current: Instruction = instructions(pos)
 
     val isInLoop: Boolean = history.contains(pos)
+
+    val isTerminated: Boolean = pos >= instructions.size
 
     def executeCurrent(): Program = current.exec(this)
 
@@ -21,21 +23,29 @@ object Day8 {
     def next(): Program = moveCursor(1)
 
     def accumulator(delta: Int): Program = copy(data = data + delta)
+
+    def mutate(index: Int, instruction: Instruction): Program = copy(
+      instructions = instructions.patch(index, Seq(instruction), 1)
+    )
   }
 
   sealed trait Instruction {
     def value: Int
     def exec(ctx: Program): Program
+    def switchType(): Option[Instruction]
   }
   object Instruction {
     final case class Noop(value: Int) extends Instruction {
-      override def exec(ctx: Program): Program = ctx.next()
+      override def exec(ctx: Program): Program       = ctx.next()
+      override def switchType(): Option[Instruction] = Some(Jump(value))
     }
     final case class Jump(value: Int) extends Instruction {
-      override def exec(ctx: Program): Program = ctx.moveCursor(value)
+      override def exec(ctx: Program): Program       = ctx.moveCursor(value)
+      override def switchType(): Option[Instruction] = Some(Noop(value))
     }
     final case class Acc(value: Int) extends Instruction {
-      override def exec(ctx: Program): Program = ctx.accumulator(value).next()
+      override def exec(ctx: Program): Program       = ctx.accumulator(value).next()
+      override def switchType(): Option[Instruction] = None
     }
 
     def apply(line: String): Instruction = {
@@ -63,11 +73,27 @@ object Day8 {
     if (program.isInLoop) program.data
     else getDataBeforeLooping(program.executeCurrent())
 
+  @tailrec def run(program: Program): Program =
+    if (program.isInLoop || program.isTerminated) program
+    else run(program.executeCurrent())
+
+  def mutateAll(program: Program): Seq[Program] =
+    program.instructions.zipWithIndex.flatMap {
+      case (ins, index) =>
+        ins.switchType().map(program.mutate(index, _))
+    }
+
+  def findMutatedEndingProgramData(program: Program): Int =
+    mutateAll(program).map(run).find(_.isTerminated).fold(-1)(_.data)
+
   def main(args: Array[String]): Unit = {
     val lines   = Source.fromResource("day8/input.txt").getLines().toSeq
     val program = parseInput(lines)
 
     val resultPart1 = getDataBeforeLooping(program)
     println(s"data was $resultPart1 when program entered in an infinite loop")
+
+    val resultPart2 = findMutatedEndingProgramData(program)
+    println(s"data was $resultPart2 when mutated program terminated")
   }
 }
