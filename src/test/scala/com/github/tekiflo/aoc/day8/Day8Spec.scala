@@ -22,4 +22,8 @@ class Day8Spec extends AnyFlatSpec with Matchers {
   it should "return the correct result for part 1 given the test input" in {
     Day8.getDataBeforeLooping(program) mustBe 5
   }
+
+  it should "return the correct result for part 2 given the test input" in {
+    Day8.findMutatedEndingProgramData(program) mustBe 8
+  }
 }
