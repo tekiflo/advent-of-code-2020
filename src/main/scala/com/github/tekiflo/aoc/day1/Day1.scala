@@ -4,10 +4,10 @@ import scala.io.Source
 import scala.util.Try
 
 object Day1 {
-  def default(n: Int): Seq[Int] = Seq.fill(n)(-1)
+  def default(n: Int): Seq[Long] = Seq.fill(n)(-1L)
 
-  def findNSumResults(input: Seq[Int], toFind: Int, n: Int): Seq[Seq[Int]] = {
-    def rec(index: Int, curr: List[Int], depth: Int): Seq[Seq[Int]] = depth match {
+  def findNSumResults(input: Seq[Long], toFind: Long, n: Int): Seq[Seq[Long]] = {
+    def rec(index: Int, curr: List[Long], depth: Int): Seq[Seq[Long]] = depth match {
       case 0 => Seq.empty
       case 1 =>
         val currSum   = curr.sum
@@ -20,15 +20,15 @@ object Day1 {
     rec(index = 0, curr = Nil, depth = n)
   }
 
-  def findNSumResult(input: Seq[Int], toFind: Int, n: Int): Seq[Int] =
+  def findNSumResult(input: Seq[Long], toFind: Long, n: Int): Seq[Long] =
     findNSumResults(input, toFind, n: Int).headOption.getOrElse(default(n))
 
   def resultFor(n: Int): Unit = {
-    val toFind = 2020
+    val toFind = 2020L
     val input = Source
       .fromResource("day1/input.txt")
       .getLines()
-      .flatMap(l => Try(l.toInt).toOption)
+      .flatMap(l => Try(l.toLong).toOption)
       .toSeq
 
     val numbers = findNSumResult(input, toFind, n)
