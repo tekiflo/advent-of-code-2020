@@ -2,6 +2,7 @@ package com.github.tekiflo.aoc.day9
 
 import com.github.tekiflo.aoc.day1.Day1
 
+import scala.annotation.tailrec
 import scala.io.Source
 
 object Day9 {
@@ -16,6 +17,28 @@ object Day9 {
         }
         .map(all(_))
         .getOrElse(-1)
+
+    def summingTo(nb: Long): Seq[Long] = {
+      @tailrec def rec(size: Int): Seq[Long] =
+        if (size == all.size) {
+          Seq.empty
+        } else {
+          val result = (0 until all.size - size)
+            .map(index => all.slice(index, index + size))
+            .find(_.sum == nb)
+          result match {
+            case Some(value) => value
+            case None        => rec(size + 1)
+          }
+        }
+      rec(size = 3)
+    }
+
+    def encryptionWeakness: Long = {
+      val notMatching = firstNotMatching
+      val result      = summingTo(notMatching)
+      result.min + result.max
+    }
   }
 
   def parseInput(lines: Seq[String], depth: Int): XMAS =
@@ -28,5 +51,8 @@ object Day9 {
 
     val resultPart1 = xmas.firstNotMatching
     println(s"$resultPart1 is the first not matching number of the list")
+
+    val resultPart2 = xmas.encryptionWeakness
+    println(s"$resultPart2 is the encryption weakness")
   }
 }
