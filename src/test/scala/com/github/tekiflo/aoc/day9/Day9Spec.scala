@@ -35,4 +35,8 @@ class Day9Spec extends AnyFlatSpec with Matchers {
   it should "return the correct result for part 1 given the test input" in {
     xmas.firstNotMatching mustBe 127
   }
+
+  it should "return the correct result for part 2 given the test input" in {
+    xmas.encryptionWeakness mustBe 62
+  }
 }
