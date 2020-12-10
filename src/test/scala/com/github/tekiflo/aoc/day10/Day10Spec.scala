@@ -59,4 +59,9 @@ class Day10Spec extends AnyFlatSpec with Matchers {
     inputExample1.resultPart1() mustBe 7 * 5
     inputExample2.resultPart1() mustBe 22 * 10
   }
+
+  it should "return the correct result for part 2 given the test input" in {
+    inputExample1.resultPart2() mustBe 8L
+    inputExample2.resultPart2() mustBe 19208L
+  }
 }
