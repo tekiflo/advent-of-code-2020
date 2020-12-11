@@ -23,4 +23,8 @@ class Day11Spec extends AnyFlatSpec with Matchers {
   it should "return the correct result for part 1 given the test input" in {
     Day11.resultPart1(input) mustBe 37
   }
+
+  it should "return the correct result for part 2 given the test input" in {
+    Day11.resultPart2(input) mustBe 26
+  }
 }
