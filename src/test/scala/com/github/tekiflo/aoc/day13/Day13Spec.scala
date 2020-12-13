@@ -15,4 +15,8 @@ class Day13Spec extends AnyFlatSpec with Matchers {
   it should "return the correct result for part 1 given the test input" in {
     Day13.resultPart1(input) mustBe 295L
   }
+
+  it should "return the correct result for part 2 given the test input" in {
+    Day13.resultPart2(input) mustBe 1068781L
+  }
 }
