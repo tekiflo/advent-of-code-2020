@@ -1,18 +1,14 @@
 package com.github.tekiflo.aoc.day15
 
 object Day15 {
-  def result(input: Seq[Int], toIndex: Int): Int = {
-    val occ = input.zipWithIndex.foldLeft(Map.empty[Int, Int]) {
-      case (occ, (nb, i)) => occ.updated(nb, i + 1)
-    }
-    val (res, _, _) = LazyList
-      .iterate((0, occ, input.size + 1)) {
+  def result(input: Seq[Int], toIndex: Int): Int =
+    LazyList
+      .iterate((0, Map.from(input.zipWithIndex), input.size)) {
         case (nb, occ, i) => (occ.get(nb).fold(0)(i - _), occ.updated(nb, i), i + 1)
       }
-      .dropWhile { case (_, _, i) => i != toIndex }
+      .dropWhile { case (_, _, i) => i != toIndex - 1 }
       .head
-    res
-  }
+      ._1
 
   def resultPart1(input: Seq[Int]): Int = result(input, toIndex = 2020)
   def resultPart2(input: Seq[Int]): Int = result(input, toIndex = 30000000)
